@@ -1,4 +1,4 @@
-<!-- <link rel="import" href="./bower_components/polymer-redux/polymer-redux.html">
+<link rel="import" href="./bower_components/polymer-redux/polymer-redux.html">
 
 
 <script>
@@ -84,8 +84,8 @@ const visibilityFilter = (state = 'SHOW_ALL', action) => {
 
 // Other solution Provided by Redux
 const todoApp = Redux.combineReducers({
-    todos,
-    visibilityFilter
+    todos: todos,
+    visibilityFilter: visibilityFilter
 });
 const store = Redux.createStore(todoApp);
 // const ReduxMixin = PolymerRedux(store);
@@ -93,7 +93,6 @@ const ReduxBehavior = PolymerRedux(store);
 
 //console.log('initial state')
 //console.log(store.getState());
-console.log(todoApp);
 
 const testToAddTodo = ()=>{
   const stateBefore = [];
@@ -170,6 +169,16 @@ store.dispatch({
     id: 1,
     text: 'Go Shopping ',
 });
+store.dispatch({
+    type: 'ADD_TODO',
+    id: 2,
+    text: 'Walk the dog ',
+});
+store.dispatch({
+    type: 'ADD_TODO',
+    id: 3,
+    text: 'Feed the cat',
+});
 //console.log('------------------');
 //console.log(store.getState());
 
@@ -198,12 +207,26 @@ const getTodo = (index)=>{
     return store.getState().todos[index];
 }
 
-</script> -->
-<link rel="import" href="bower_components/polymer-redux/polymer-redux.html">
+</script>
 
+
+
+
+
+<!-- <link rel="import" href="bower_components/polymer-redux/polymer-redux.html">
+From polycast
 <script>
   const initialState = {
-    friends: []
+    friends: [{
+        name:'Monica',
+        age: 23
+    },
+    {
+        name:'Monica',
+        age: 23
+    }
+    ],
+    randomValue: 3
   };
   const reducer = (state, action) => {
     if (!state) return initialState;
@@ -215,7 +238,6 @@ const getTodo = (index)=>{
     }
   }
   const store = Redux.createStore(reducer);
+  console.log(store.getState());
   const ReduxBehavior = PolymerRedux(store);
-
-  store.dispatch({type: 'ADD_FRIEND', friend: 'Friend'});
-</script>
+</script> -->

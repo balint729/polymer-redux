@@ -1,68 +1,36 @@
-<!-- Imports polymer -->
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="../redux-store.html">
 
 <dom-module id="todo-list">
-    <template>
-        <h3>You have <p>[[todoCount]]</p> ToDos</h3>
-        <h3>You have <p>[[friends.length]]</p> friends</h3>
-        <ul>
-            <li>{{getTodoText(1)}}</li>
-        </ul>
+  <template>
+    <h3>You have [[todoCount]] todos!</h3>
+    <ul>
+        <template is="dom-repeat" items="[[todos]]" as="todo">
+            <li>[[todo.id]] . [[todo.text]]</li>
+        </template>
+    </ul>
+  </template>
 
-        visibilityFilter: <p>{{visibilityFilter}}</p>
-    </template>
-</dom-module>
-
-<script>
-
+  <script>
     Polymer({
-        is: 'todo-list',
-        behaviors: [ ReduxBehavior ],
-        properties: {
-            todos: {
-                type: Array,
-                statePath:'todos'
-            },
-            friends: {
-                type: Array,
-                statePath:'friends'
-            },
-            todoCount: {
-                type: Number,
-                computed: 'computeTodoCount()'
-            },
-            visibilityFilter: {
-                type: String,
-                statePath: 'visibilityFilter',
-                computed: 'getVisibilityFilter()'
-            },
-            friendCount: {
-                type: Number,
-                computed: 'computeFriendCount(friends)'
-            }
+      is: 'todo-list',
+      behaviors: [ ReduxBehavior ],
+      properties: {
+        todos: {
+          type: Array,
+          statePath: 'todos'
         },
-
-        computeTodoCount: () =>{
-            console.log('asd');
-            console.log(this.todos.length);
-            console.log(this.todos);
-            return this.todos.length;
-        },
-
-        computeFriendCount: function(friends) {
-            return friends.length;
-        },
-
-        getTodoText: (index) =>{
-            //return getTodo(index).text;
-        },
-    
-        getVisibilityFilter: () =>{
-            console.log('visibilty?');
+        todoCount: {
+          type: Number,
+          computed: 'computetodoCount(todos)'
         }
-    
-});
-
-</script>
-
+      },
+      computetodoCount: (todos)=> {
+        return todos.length;
+      },
+      /*getTodo: (id)=> {
+          return todos[id].text;
+      }*/
+    });
+  </script>
+</dom-module>
