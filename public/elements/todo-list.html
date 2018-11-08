@@ -6,7 +6,7 @@
     <h3>You have [[todoCount]] todos!</h3>
     <ul>
         <template is="dom-repeat" items="[[todos]]" as="todo">
-            <li>[[todo.id]] . [[todo.text]]</li>
+            <li id="[[todo.id]]" on-tap="toggleTodo">[[todo.id]] . [[todo.text]]</li>
         </template>
     </ul>
   </template>
@@ -25,12 +25,27 @@
           computed: 'computetodoCount(todos)'
         }
       },
+      actions:{
+          toggle: (id)=>{
+            return {
+                type: 'TOGGLE_TODO',
+                id:id
+            }
+          }
+      },
       computetodoCount: (todos)=> {
         return todos.length;
       },
-      /*getTodo: (id)=> {
-          return todos[id].text;
-      }*/
+      toggleTodo: function(e){
+        let todoText = e.target.innerHTML;
+        let todoId = e.target.id;
+        e.target.innerHTML = this.todos[todoId].completed ? todoText : "<strike>"+todoText+"</strike>";
+        console.log('todoID', todoId);
+        console.log('Todos', this.todos[0]);
+        this.dispatch('toggle', todoId);
+
+      },
+
     });
   </script>
 </dom-module>
