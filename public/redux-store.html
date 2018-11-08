@@ -1,0 +1,221 @@
+<!-- <link rel="import" href="./bower_components/polymer-redux/polymer-redux.html">
+
+
+<script>
+
+// const //deepFreeze = require('deep-freeze');
+// const //expect = require('//expect');
+//const {createStore, combineReducers} = require('redux');
+//const {createStore} = require('redux');
+const todo = (state, action) =>{
+    switch(action.type){
+        case 'ADD_TODO':
+            return {
+                id: action.id,
+                text: action.text,
+                completed:false
+                }
+        case 'TOGGLE_TODO':
+            if(state.id == action.id){
+                return {
+                    ...state,
+                    completed: !state.completed
+                    };
+            }else{
+                return state;
+            }
+        default:
+            return state;
+    }
+}
+
+const todos = (state = [], action) =>{
+    switch(action.type){
+        case 'ADD_TODO':
+            return [
+                ...state,
+                todo(undefined, action)
+            ]
+        case 'TOGGLE_TODO':
+            return state.map( t => todo(t, action));
+        default:
+            return state;
+    }
+};
+
+const visibilityFilter = (state = 'SHOW_ALL', action) => {
+    switch(action.type){
+        case 'SET_VISIBILITY_FILTER': 
+            return action.filter;
+        default:
+            return state;
+    }
+}; 
+
+//First time state will be undefined, child reducers will return initial states
+/* const todoApp = (state = {}, action) =>{
+    return {
+        todos: todos(
+            state.todos,
+            action
+        ),
+        visibilityFilter: visibilityFilter(
+            state.visibilityFilter,
+            action
+        )
+    };
+}; */
+
+/*const combineReducers = (reducers) =>{
+    return (state = {}, action) => {
+        return Object.keys(reducers).reduce(
+            (nextState,key) =>{
+                nextState[key] = reducers[key](
+                    state[key],
+                    action
+                );
+                return nextState
+            },
+            {}
+        );
+    };
+};*/ 
+
+
+// Other solution Provided by Redux
+const todoApp = Redux.combineReducers({
+    todos,
+    visibilityFilter
+});
+const store = Redux.createStore(todoApp);
+// const ReduxMixin = PolymerRedux(store);
+const ReduxBehavior = PolymerRedux(store);
+
+//console.log('initial state')
+//console.log(store.getState());
+console.log(todoApp);
+
+const testToAddTodo = ()=>{
+  const stateBefore = [];
+  const action = {
+    type: 'ADD_TODO',
+    id: 0,
+    text: 'Learn Redux'
+  }
+  const stateAfter = [{
+    id: 0,
+    text: 'Learn Redux',
+    completed: false
+  }];
+  
+  //deepFreeze(stateBefore);
+  //deepFreeze(action);
+  ////expect(
+//     todos(stateBefore, action)
+//   ).toEqual(stateAfter);
+ 
+}
+
+const testToggleTodo = () =>{
+    const stateBefore = [
+        {
+            id: 0,
+            text: 'Learn Redux',
+            completed: false
+        },
+        {
+            id: 1,
+            text: 'Go Shopping ',
+            completed: false
+        },
+
+    ];
+  const action = {
+    type: 'TOGGLE_TODO',
+    id: 0 
+  }
+
+  const stateAfter = [
+    {
+        id: 0,
+        text: 'Learn Redux',
+        completed: true
+    },
+    {
+        id: 1,
+        text: 'Go Shopping ',
+        completed: false
+    },
+];
+
+    //deepFreeze(stateBefore);
+    //deepFreeze(action);
+
+    //expect(
+    //     todos(stateBefore,action)
+    // ).toEqual(stateAfter);
+
+}
+
+testToAddTodo();
+//console.log('Success Add Todo');
+//console.log('add todo state');
+store.dispatch({
+    type: 'ADD_TODO',
+    id: 0,
+    text: 'Learn Redux'
+  });
+store.dispatch({
+    type: 'ADD_TODO',
+    id: 1,
+    text: 'Go Shopping ',
+});
+//console.log('------------------');
+//console.log(store.getState());
+
+testToggleTodo();
+//console.log('Success Toggle Todo');
+//console.log('toggle todo state');
+
+store.dispatch({
+    type: 'TOGGLE_TODO',
+    id: 1,
+});
+
+//console.log('------------------');
+//console.log(store.getState());
+
+store.dispatch({
+    type: 'SET_VISIBILITY_FILTER',
+    filter: 'SHOW_COMPLETED'
+});
+
+//console.log('AFter dispatching set_visibility_filter');
+//console.log('------------------');
+console.log(store.getState());
+
+const getTodo = (index)=>{
+    return store.getState().todos[index];
+}
+
+</script> -->
+<link rel="import" href="bower_components/polymer-redux/polymer-redux.html">
+
+<script>
+  const initialState = {
+    friends: []
+  };
+  const reducer = (state, action) => {
+    if (!state) return initialState;
+    switch (action.type) {
+      case 'ADD_FRIEND':
+        let friends = state.friends.slice(0);
+        friends.push(action.friend);
+        return Object.assign({}, state, { friends: friends });
+    }
+  }
+  const store = Redux.createStore(reducer);
+  const ReduxBehavior = PolymerRedux(store);
+
+  store.dispatch({type: 'ADD_FRIEND', friend: 'Friend'});
+</script>

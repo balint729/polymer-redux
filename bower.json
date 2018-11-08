@@ -1,0 +1,24 @@
+{
+  "name": "todo",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Bánhegyi",
+    "Bálint (Bálint) <balint.banhegyi@ge.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#1.0.0",
+    "webcomponentsjs": "^2.1.3",
+    "polymer-redux": "^1.0.5",
+    "redux": "^4.0.1"
+  }
+}
