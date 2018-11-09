@@ -19,6 +19,7 @@
     "polymer": "Polymer/polymer#1.0.0",
     "webcomponentsjs": "^2.1.3",
     "polymer-redux": "tur-nr/polymer-redux#0.3.0",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "paper-tooltip": "PolymerElements/paper-tooltip#1.0.0"
   }
 }

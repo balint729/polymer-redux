@@ -3,7 +3,7 @@
 
 <dom-module id="visibility-filter">
   <template>
-    <button>Show All</button> || <button>Show Completed</button> || <button>Show Open</button>
+    <button on-tap="showAll">Show All</button> || <button on-tap="showCompleted">Show Completed</button> || <button on-tap="showOpen">Show Open</button>
   </template>
 
   <script>
@@ -11,8 +11,31 @@
       is: 'visibility-filter',
       behaviors: [ ReduxBehavior ],
       properties: {
-        
+        visibilityFilter: {
+          type: String,
+          statePath: 'visibilityFilter'
+        }
       },
+      actions: {
+        setFilter: function(filter){
+          return{
+            type: 'SET_VISIBILITY_FILTER',
+            filter
+          }
+         
+        }
+      },
+        showAll : function(e){
+          this.dispatch('setFilter', 'SHOW_ALL');
+        },
+
+        showCompleted : function(e){
+          this.dispatch('setFilter', 'SHOW_COMPLETED');
+        },
+
+        showOpen : function(e){
+          this.dispatch('setFilter', 'SHOW_OPEN');
+        },
 
     });
   </script>

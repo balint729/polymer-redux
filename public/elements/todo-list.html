@@ -3,7 +3,7 @@
 
 <dom-module id="todo-list">
   <template>
-    <h3>You have [[todoCount]] todos!</h3>
+    <h3>You have [[todoCount]] [[filterFlag]] todo(s)!</h3>
     <ul>
         <template is="dom-repeat" items="[[todos]]" as="todo">
             <li id="[[todo.id]]" on-tap="toggleTodo">[[todo.id]] . [[todo.text]]</li>
@@ -23,28 +23,58 @@
         todoCount: {
           type: Number,
           computed: 'computetodoCount(todos)'
+        },
+        visibilityFilter: {
+          type: String,
+          observer: 'refreshTodoList',
+          statePath: 'visibilityFilter',
+        },
+        filterFlag: {
+          type: String,
+          value: ''
         }
       },
       actions:{
           toggle: (id)=>{
             return {
                 type: 'TOGGLE_TODO',
-                id:id
+                id
             }
           }
       },
+
       computetodoCount: (todos)=> {
         return todos.length;
       },
+
       toggleTodo: function(e){
         let todoText = e.target.innerHTML;
         let todoId = e.target.id;
         e.target.innerHTML = this.todos[todoId].completed ? todoText : "<strike>"+todoText+"</strike>";
-        console.log('todoID', todoId);
-        console.log('Todos', this.todos[0]);
         this.dispatch('toggle', todoId);
-
       },
+      
+      refreshTodoList: function(){
+        if(this.visibilityFilter == 'SHOW_COMPLETED'){
+          this.todos = this.todos.filter((todo)=>{
+            if(todo.completed === true){
+              return todo;
+            }
+          });
+          this.filterFlag = 'completed';
+        }
+        else if(this.visibilityFilter == 'SHOW_OPEN'){
+          this.todos = this.todos.filter((todo)=>{
+            if(todo.completed === false){
+              return todo;
+            }
+          });
+          this.filterFlag = 'open';
+        }
+        else if(this.visibilityFilter == 'SHOW_ALL'){
+          this.filterFlag = '';
+        }
+      }
 
     });
   </script>

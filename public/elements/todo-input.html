@@ -12,16 +12,20 @@
             is:'todo-input',
             behaviors: [ReduxBehavior],
             properties: {
-                counter: {
+                todos: {
+                    type: Array,
+                    statePath: 'todos'
+                },
+                nextTodoId: {
                     type: Number,
-                    value: 4
+                    computed: 'computeNextTodoId(todos)'
                 }
             },
             actions: {
-                add: (text) =>{
+                add: (text, id) =>{
                     return {
                         type: 'ADD_TODO',
-                        id: this.counter,
+                        id,
                         text: text
                     }
                 }
@@ -30,11 +34,16 @@
             addTodo: function() {
                 const todoInput = this.$.todoInput;
                 if(todoInput.value){
-                    this.dispatch('add', todoInput.value);
+                    this.dispatch('add', todoInput.value, this.nextTodoId);
                     todoInput.value = null;
                     todoInput.focus();
                 }
             },
+
+             computeNextTodoId: (todos) =>{
+                console.log(todos.length - 1);
+                return todos.length;
+            }
 
         })
     </script>
